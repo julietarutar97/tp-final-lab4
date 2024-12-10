@@ -62,6 +62,8 @@ const Canchas = () => {
           mb: 10,
           color: 'text.secondary',
         }}
+        component={Link}
+        to="/reservas"
         >
             Reservá
         </Button>

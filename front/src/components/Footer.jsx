@@ -22,14 +22,14 @@ export default function Footer() {
         © {new Date().getFullYear()} Mi Sistema de Reservas. Todos los derechos reservados.
       </Typography>
       <Typography variant="body2">
-        Creado con ❤️ por{' '}
+        Creado por {' '}
         <Link
-          href="https://tu-portafolio.com"
+          href="https://github.com/julietarutar97"
           target="_blank"
           rel="noopener noreferrer"
           sx={{ color: '#fff', textDecoration: 'underline' }}
         >
-          Tu Nombre
+           Julieta Rutar
         </Link>
       </Typography>
     </Box>

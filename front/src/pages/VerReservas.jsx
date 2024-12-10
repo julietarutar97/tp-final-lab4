@@ -18,6 +18,7 @@ import {
 
 const Reservas = () => {
   const [reservas, setReservas] = useState([]);
+  const [filteredReservas, setFilteredReservas] = useState([]);
   const [editReservaId, setEditReservaId] = useState(null);
   const [formData, setFormData] = useState({
     cancha_id: '',
@@ -26,6 +27,10 @@ const Reservas = () => {
     duracion: '',
     nombre_contacto: '',
     telefono_contacto: '',
+  });
+  const [filterCriteria, setFilterCriteria] = useState({
+    cancha_id: '',
+    dia: '',
   });
   const [openSnackbar, setOpenSnackbar] = useState({
     open: false,
@@ -40,6 +45,7 @@ const Reservas = () => {
       .then((response) => {
         const sortedReservas = response.data.sort((a, b) => new Date(a.dia) - new Date(b.dia));
         setReservas(sortedReservas);
+        setFilteredReservas(sortedReservas);
       })
       .catch((error) => {
         console.log(error);
@@ -74,6 +80,11 @@ const Reservas = () => {
             reserva.id === reservaId ? response.data : reserva
           )
         );
+        setFilteredReservas((prevReservas) =>
+          prevReservas.map((reserva) =>
+            reserva.id === reservaId ? response.data : reserva
+          )
+        );
         setEditReservaId(null);
         setOpenSnackbar({ open: true, message: 'Reserva modificada con éxito', severity: 'success' });
       })
@@ -88,6 +99,7 @@ const Reservas = () => {
       .delete(`http://localhost:8000/api/reservas/${reservaId}`)
       .then(() => {
         setReservas((prevReservas) => prevReservas.filter((reserva) => reserva.id !== reservaId));
+        setFilteredReservas((prevReservas) => prevReservas.filter((reserva) => reserva.id !== reservaId));
         setDeleteDialog({ open: false, reservaId: null });
         setOpenSnackbar({ open: true, message: 'Reserva eliminada con éxito', severity: 'success' });
       })
@@ -98,22 +110,39 @@ const Reservas = () => {
       });
   };
 
+  const handleFilterChange = (e) => {
+    setFilterCriteria({
+      ...filterCriteria,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleFilter = () => {
+    const filtered = reservas.filter((reserva) => {
+      return (
+        (filterCriteria.cancha_id === '' || reserva.cancha_id.toString() === filterCriteria.cancha_id) &&
+        (filterCriteria.dia === '' || reserva.dia === filterCriteria.dia)
+      );
+    });
+    setFilteredReservas(filtered);
+  };
+
   const handleCloseSnackbar = () => {
     setOpenSnackbar({ open: false, message: '', severity: '' });
   };
 
   return (
     <Box
-    sx={{
+      sx={{
         width: '100%',
         margin: 0,
         padding: 0,
-     }}
+      }}
     >
-       <Box
+      <Box
         sx={{
           backgroundImage: `url(/fondo_reservas.jpg)`,
-          backgroundSize: 'cover', 
+          backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           height: '90vh',
@@ -130,7 +159,7 @@ const Reservas = () => {
             alignItems: 'center',
             pt: 8,
             color: 'white',
-            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)'
+            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
           }}
           variant="h3"
           component="h3"
@@ -139,10 +168,38 @@ const Reservas = () => {
         >
           Nuestras reservas
         </Typography>
-        </Box>
-      <Grid2 sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', mt: 5}} container spacing={2}>
-        {reservas.map((reserva) => (
-          <Grid2 sx={{mr: 2, ml: 2, borderRadius: "35px"}} item xs={12} sm={6} md={4} key={reserva.id}>
+      </Box>
+      <Box display="flex" justifyContent="center" alignItems="center" flexDirection="row" sx={{ mt: 4, mb: 2 }}>
+        <TextField
+          label="ID de la Cancha"
+          name="cancha_id"
+          value={filterCriteria.cancha_id}
+          onChange={handleFilterChange}
+          sx={{ mr: 2 }}
+        />
+        <TextField
+          label="Día"
+          type="date"
+          name="dia"
+          value={filterCriteria.dia}
+          onChange={handleFilterChange}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          sx={{ mr: 2 }}
+        />
+        <Button variant="contained" color="primary" onClick={handleFilter}>
+          Filtrar
+        </Button>
+      </Box>
+      <Grid2
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', mt: 5 }}
+        container
+        spacing={2}
+      >
+        {filteredReservas.map((reserva) => (
+          //filtrar por id de cancha y dia
+          <Grid2 sx={{ mr: 2, ml: 2, borderRadius: '35px' }} item xs={12} sm={6} md={4} key={reserva.id}>
             <Paper sx={{ padding: 2 }}>
               {editReservaId === reserva.id ? (
                 <>
@@ -222,7 +279,9 @@ const Reservas = () => {
                 </>
               ) : (
                 <>
-                  <Typography variant="h6" component="h2">Reserva ID: {reserva.id}</Typography>
+                  <Typography variant="h6" component="h2">
+                    Reserva ID: {reserva.id}
+                  </Typography>
                   <Typography variant="body1">Cancha ID: {reserva.cancha_id}</Typography>
                   <Typography variant="body1">Día: {reserva.dia}</Typography>
                   <Typography variant="body1">Hora: {reserva.hora}</Typography>
@@ -296,3 +355,4 @@ const Reservas = () => {
 };
 
 export default Reservas;
+

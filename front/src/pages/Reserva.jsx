@@ -31,7 +31,7 @@ const Reserva = () => {
     axios
       .post('http://localhost:8000/api/reservas', formData)
       .then((response) => {
-        // Mostrar mensaje de éxito con el ID de la reserva creada
+        // Mostrar mensaje de q se crep la reserva
         setDialog({
           open: true,
           title: 'Reserva Creada',
@@ -45,10 +45,10 @@ const Reserva = () => {
           duracion: '',
           telefono_contacto: '',
           nombre_contacto: '',
-        }); // Limpiar el formulario
+        }); // Limpiar el form
       })
       .catch((error) => {
-        // Mostrar mensaje de error
+        // Muestrar mensaje de error
         const errorMessage =
           error.response?.data?.detail || 'Ocurrió un error al intentar guardar la reserva.';
         setDialog({

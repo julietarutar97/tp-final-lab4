@@ -1,6 +1,6 @@
 import React from 'react';
-import { Typography, Box, Button, Grid2, Divider } from '@mui/material';
-import Navbar from '../components/Navbar';
+import { Typography, Box, Button, Grid2, Link } from '@mui/material';
+//import Navbar from '../components/Navbar';
 import { RxDividerHorizontal } from 'react-icons/rx';
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
       <Box
         sx={{
           backgroundImage: `url(/padel_fondo.png)`,
-          backgroundSize: 'cover', // Asegura que la imagen cubra todo el contenedor
+          backgroundSize: 'cover', //esto no funcionaaaa
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           height: '100vh',
@@ -51,6 +51,8 @@ export default function Home() {
           mb: 10,
           color: 'text.secondary',
         }}
+        component={Link}
+        to="/historia"
         >
             Conocé más
         </Button>
