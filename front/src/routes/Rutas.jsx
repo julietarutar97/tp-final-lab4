@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar.jsx'
 import Canchas from '../pages/Canchas.jsx'
 import Reserva from '../pages/Reserva.jsx'
 import VerReservas from '../pages/VerReservas.jsx'
+import ConoceMas from '../pages/ConoceMas.jsx'
 import Footer from '../components/Footer.jsx'
 export default function Rutas() {
   return (
@@ -17,6 +18,7 @@ export default function Rutas() {
         <Route path="/canchas" element={<Canchas />} />
         <Route path="/reservas" element={<Reserva />} />
         <Route path="/ver-reservas" element={<VerReservas />} />
+        <Route path='/conoce-mas' element={<ConoceMas />} />
       </Routes>
     <Footer/>
     </BrowserRouter>

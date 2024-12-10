@@ -1,7 +1,8 @@
 import React from 'react';
-import { Typography, Box, Button, Grid2, Link } from '@mui/material';
+import { Typography, Box, Button, Grid2} from '@mui/material';
 //import Navbar from '../components/Navbar';
 import { RxDividerHorizontal } from 'react-icons/rx';
+import { Link } from 'react-router-dom';
 
 export default function Home() {
   return (
@@ -51,8 +52,7 @@ export default function Home() {
           mb: 10,
           color: 'text.secondary',
         }}
-        component={Link}
-        to="/historia"
+        component={Link} to="/conoce-mas"
         >
             Conocé más
         </Button>

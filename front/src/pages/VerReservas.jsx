@@ -127,6 +127,14 @@ const Reservas = () => {
     setFilteredReservas(filtered);
   };
 
+  const handleClearFilters = () => {
+    setFilterCriteria({
+      cancha_id: '',
+      dia: '',
+    });
+    setFilteredReservas(reservas);
+  };
+
   const handleCloseSnackbar = () => {
     setOpenSnackbar({ open: false, message: '', severity: '' });
   };
@@ -141,11 +149,12 @@ const Reservas = () => {
     >
       <Box
         sx={{
-          backgroundImage: `url(/fondo_reservas.jpg)`,
+          backgroundImage: `url(/reservas.jpg)`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
+          //backgroundRepeat: 'no-repeat',
           height: '90vh',
+         mt: 8,
         }}
         display="flex"
         flexDirection="column"
@@ -188,8 +197,11 @@ const Reservas = () => {
           }}
           sx={{ mr: 2 }}
         />
-        <Button variant="contained" color="primary" onClick={handleFilter}>
+        <Button variant="contained" color="primary" onClick={handleFilter} sx={{ mr: 2 }}>
           Filtrar
+        </Button>
+        <Button variant="outlined" color="secondary" onClick={handleClearFilters}>
+          Limpiar Filtros
         </Button>
       </Box>
       <Grid2
@@ -198,7 +210,6 @@ const Reservas = () => {
         spacing={2}
       >
         {filteredReservas.map((reserva) => (
-          //filtrar por id de cancha y dia
           <Grid2 sx={{ mr: 2, ml: 2, borderRadius: '35px' }} item xs={12} sm={6} md={4} key={reserva.id}>
             <Paper sx={{ padding: 2 }}>
               {editReservaId === reserva.id ? (
@@ -279,7 +290,7 @@ const Reservas = () => {
                 </>
               ) : (
                 <>
-                  <Typography variant="h6" component="h2">
+                                    <Typography variant="h6" component="h2">
                     Reserva ID: {reserva.id}
                   </Typography>
                   <Typography variant="body1">Cancha ID: {reserva.cancha_id}</Typography>
@@ -355,4 +366,3 @@ const Reservas = () => {
 };
 
 export default Reservas;
-
